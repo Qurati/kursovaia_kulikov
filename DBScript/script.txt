@@ -1,0 +1,46 @@
+CREATE TABLE metal_categories (
+    metal_categories_id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    purity VARCHAR(50) NOT NULL,
+    price_per_gram DECIMAL(10,2) NOT NULL
+);
+
+CREATE TABLE clients (
+    client_id SERIAL PRIMARY KEY,
+    full_name VARCHAR(255) NOT NULL,
+    passport VARCHAR(50) NOT NULL UNIQUE,
+    phone VARCHAR(20) NOT NULL,
+    address VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE transactions (
+    transaction_id SERIAL PRIMARY KEY,
+    metal_category_id INT NOT NULL,
+    client_id INT NOT NULL,
+    weight DECIMAL(10,3) NOT NULL,
+    transaction_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (metal_category_id) REFERENCES metal_categories(metal_categories_id) ON DELETE CASCADE,
+    FOREIGN KEY (client_id) REFERENCES clients(client_id) ON DELETE CASCADE
+);
+
+CREATE INDEX idx_transactions_client_id ON transactions(client_id);
+CREATE INDEX idx_transactions_metal_category_id ON transactions(metal_category_id);
+CREATE INDEX idx_transactions_date ON transactions(transaction_date);
+CREATE INDEX idx_clients_passport ON clients(passport);
+CREATE INDEX idx_clients_phone ON clients(phone);
+CREATE INDEX idx_metal_categories_name ON metal_categories(name);
+
+INSERT INTO metal_categories (name, purity, price_per_gram) VALUES
+('Золото', '585', 4500.00),
+('Золото', '750', 5200.00),
+('Серебро', '925', 65.00),
+('Серебро', '999', 75.00),
+('Платина', '950', 2800.00);
+
+INSERT INTO clients (full_name, passport, phone, address) VALUES
+('Иванов Иван Иванович', '1234 567890', '+7-999-123-45-67', 'г. Москва, ул. Ленина, д.1'),
+('Петрова Анна Сергеевна', '2345 678901', '+7-999-234-56-78', 'г. Москва, ул. Пушкина, д.10');
+
+INSERT INTO transactions (metal_category_id, client_id, weight, transaction_date) VALUES
+(1, 1, 5.500, NOW()),
+(3, 2, 25.000, NOW());

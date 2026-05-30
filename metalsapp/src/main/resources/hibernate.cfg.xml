@@ -1,0 +1,19 @@
+<hibernate-configuration>
+    <session-factory>
+        <!--   Set URL   -->
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/postgres</property>
+        <!--   Set User Name   -->
+        <property name="hibernate.connection.username">postgres</property>
+        <!--   Set Password   -->
+        <property name="hibernate.connection.password">root</property>
+        <!--   Set Driver Name   -->
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.current_session_context_class">thread</property>
+        <property name="hibernate.show_sql">true</property>
+        <!--   Optional: Auto-generate schema   -->
+        <!--   <property name = "hibernate.hbm2ddl.auto">create</property>   -->
+        <mapping class="ru.qurati.metalsapp.model.Client"/>
+        <mapping class="ru.qurati.metalsapp.model.MetalCategory"/>
+        <mapping class="ru.qurati.metalsapp.model.Transaction"/>
+    </session-factory>
+</hibernate-configuration>
